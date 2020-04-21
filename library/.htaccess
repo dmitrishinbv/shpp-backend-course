@@ -1,0 +1,9 @@
+RewriteEngine on
+#RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_URI} !^/panel.+\.php$
+RewriteRule (.*) /library/index.php?$1 [QSA,L]
+#RewriteRule  ^(.*)$ /library/index.php?route=$1 [QSA,L]
+
+AddDefaultCharset utf-8
