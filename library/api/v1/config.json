@@ -1,7 +1,0 @@
-{
-    "host": "localhost",
-    "user": "dmitrishinbv",
-    "password": "Pass123456!",
-    "database": "library",
-    "charset": "utf8mb4"
-}
