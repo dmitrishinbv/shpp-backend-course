@@ -44,7 +44,7 @@ var view = {
         }
 
         content.html(contentHTML);
-        $('.blockI').matchHeight(); // Aligns all the height of the book
+        $('.blockI').matchHeight(); // Aligns all the height of the ___book
     },
     showNot_found: function(searchText, pathUrl) {
         var contentNotFound = $('#not_found').html()
@@ -83,11 +83,11 @@ var view = {
         content.html(contentHTML);
 
         $('.book_list_row').click(function() {
-            $(location).attr('href', 'admin/book/' + $(this).attr('data-book-id'));
+            $(location).attr('href', 'admin/___book/' + $(this).attr('data-___book-id'));
         });
     },
     fillBookInfo: function(book) {
-        // console.log(book);
+        // console.log(___book);
         view.fillFields(book, 'title,author,year,pages,isbn,description', "html");
         $('#id').attr({
             'book-id': book.id,

@@ -1,3 +1,4 @@
-Test view <br/>
-id: <?=$userInfo['id'];?><br/>
-name: <?=$userInfo['name'];?>
+<?php
+$contentPage = 'public/tpl/books-wrapper.php';
+include ($contentPage);
+

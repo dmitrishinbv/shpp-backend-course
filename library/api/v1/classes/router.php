@@ -1,104 +1,94 @@
 <?php
-// класс роутера
 
-Class Router {
+Class Router
+{
 
-	private $registry;
-	private $path;
-	private $args = array();
+    private $path;
+    private $args = [];
 
-	// получаем хранилище
-	function __construct($registry) {
-		$this->registry = $registry;
-	}
+    function __construct()
+    {
+    }
 
-	// задаем путь до папки с контроллерами
-	function setPath($path) {
-        $path = trim($path, '/\\');
-        $path .= DS;
-		// если путь не существует, сигнализируем об этом
+    // задаем путь до папки с контроллерами
+    function setPath($path)
+    {
+        $path .= DIRECTORY_SEPARATOR;
+        // если путь не существует, сигнализируем об этом
         if (is_dir($path) == false) {
-			throw new Exception ('Invalid controller path: `' . $path . '`');
+            throw new Exception ('Invalid controller path: `' . $path . '`');
         }
         $this->path = $path;
-	}	
-	
-	// определение контроллера и экшена из урла
-	private function getController(&$file, &$controller, &$action, &$args) {
-        if ($_GET) {
-            $uri = key($_GET);
-        }
-        $route = (empty($uri)) ? '' : $uri;
+    }
 
-        if (empty($route)) {
-            $route = 'index';
-        }
-
-        echo "<br>";
-
-        // Получаем части урла
-        $route = trim($route, '/\\');
-        echo $route;
-        $parts = explode('/', $route);
-
-        // Находим контроллер
+    // определение контроллера и экшена
+    private function getController(&$file, &$controller, &$action, &$args)
+    {
+        $parts = explode('/', $_SERVER['REQUEST_URI']);
+        // delete from url first part - "library"
+        array_shift($parts);
         $cmd_path = $this->path;
-        foreach ($parts as $part) {
-            echo "part ".$part;
-            $fullpath = $cmd_path . $part;
+        $fullpath = $cmd_path . $parts[1];
 
-			// Проверка существования папки
-			if (is_dir($fullpath)) {
-				$cmd_path .= $part . DS;
-				array_shift($parts);
-				continue;
-			}
-
-			// Находим файл
-			if (is_file($fullpath . '.php')) {
-				$controller = $part;
-				array_shift($parts);
-				break;
-			}
+        if (is_dir($fullpath)) {
+            $cmd_path .= $parts[1];
         }
 
-		// если урле не указан контролер, то испольлзуем поумолчанию index
-        if (empty($controller)) {
-			$controller = 'index'; 
-		}
-
-        // Получаем экшен
-        $action = array_shift($parts);
-        if (empty($action)) { 
-			$action = 'index'; 
-		}
-
+        $uri = (!empty($_POST) && !empty($_POST['search'])) ? 'search' : $parts[1];
+        if (empty ($uri)) {
+            $controller = $action = 'index';
+        }
+        else {
+            switch ($uri) {
+                case ('index.php'):
+                    $controller = $action = 'index';
+                    break;
+                case 'book':
+                    $controller = 'book';
+                    $action = 'id';
+                    $_SESSION['book_id'] = (int)htmlentities($parts[2]);
+                    break;
+                case 'search':
+                    $controller = 'search';
+                    $action = 'query';
+                    $_SESSION['searchText'] = htmlentities($_POST['search']);
+                    unset($_POST['search']);
+                    break;
+                case 'admin':
+                    $controller = 'panel';
+                    $action = 'index';
+                    break;
+                default:
+                    Server::responseCode(404);
+            }
+         }
         $file = $cmd_path . $controller . '.php';
-        $args = $parts;
-	}
-	
-	function start() {
+        $this->args = $parts;
+    }
+
+
+    function start()
+    {
         // Анализируем путь
         $this->getController($file, $controller, $action, $args);
-		
         // Проверка существования файла, иначе 404
-        if (is_readable($file) == false) {
-			die ('404 Not Found');
+        if (!file_exists($file) || !is_readable($file)) {
+            Server::responseCode(404);
         }
-		
+
         // Подключаем файл
-        include ($file);
+        include($file);
 
         // Создаём экземпляр контроллера
         $class = 'Controller_' . $controller;
-        $controller = new $class($this->registry);
-		
+        $controller = new $class();
+
         // Если экшен не существует - 404
         if (is_callable(array($controller, $action)) == false) {
-			die ('404 Not Found');
+            echo "is_callable $action";
+            Server::responseCode(404);
         }
 
-        // Выполняем экшен
         $controller->$action();
-	}
+    }
 }

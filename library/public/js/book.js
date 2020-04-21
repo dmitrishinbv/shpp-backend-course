@@ -1,9 +1,11 @@
-var pathname = $(location).attr('pathname');
-var bookIdPosition = pathname.lastIndexOf('/') + 1;
-var isBookInUse = false;
-var bookId;
+// var pathname = $(location).attr('pathname');
+// var bookIdPosition = pathname.lastIndexOf('6');
+// //var bookId = pathname.substr(pathname.lastIndexOf('/') + 1, pathname.length);
+// var isBookInUse = false;
+
 
 // doAjaxQuery('GET', '/api/v1/books/' + pathname.substr(bookIdPosition), null, function(res) {
+//
 //     view.fillBookInfo(res.data);
 //     if (res.data.event) {
 //         isBookInUse = true;
@@ -12,7 +14,7 @@ var bookId;
 // });
 
 /* --------------------Show the result, for sending the -----------------------
-----------------------email in the queue for the book ---------------------- */
+----------------------email in the queue for the ___book ---------------------- */
 // var showResultSendEmailToQueue = function(email, result) {
 //     var busy = $('#bookID').attr('busy');
 //     $('.form-queue', '.btnBookID', (busy === null) ? '.freeBook' : '.busyBook').css('display', 'none');
@@ -20,7 +22,7 @@ var bookId;
 //     $('span.youEmail').text(' ' + email);
 // };
 
-/*--------------- Send email. Get in Queue in for a book ---------------------*/
+/*--------------- Send email. Get in Queue in for a ___book ---------------------*/
 // var sendEmailToQueue = function(id, email) {
 //     doAjaxQuery('GET', '/api/v1/books/' + id + '/order?email=' + email, null, function(res) {
 //         showResultSendEmailToQueue(email, res.success);
@@ -39,7 +41,7 @@ var bookId;
 //             view.showSuccessEmail();
 //             if (event.keyCode == 13) {
 //
-//                 var id = $('#bookID').attr('book-id');
+//                 var id = $('#bookID').attr('___book-id');
 //                 sendEmailToQueue(id, email);
 //             }
 //         } else {
@@ -47,32 +49,65 @@ var bookId;
 //         }
 //     }
 // });
-/*------------------ Sending email by clicking on the button ----------------*/
-$('.btnBookID').click(function(event) {
-    // var email = $('.orderEmail').val();
-    // var isEmail = controller.validateEmail(email);
-    // if (isEmail) {
-    //     view.showSuccessEmail();
-    //     var id = $('#bookID').attr('book-id');
-    //     sendEmailToQueue(id, email);
-    // } else {
-    //     view.showErrEmail();
-    // }
-    // if (isBookInUse) {
-    //     view.showSubscribe(
-    //         "Сейчас эта книга находится на руках, у одного из наших учеников." +
-    //         " Оставь свой email и мы сообщим, как только книга вновь" +
-    //         " появится в библиотеке", bookId);
-    // } else 
+
+/*------------------ Sending ajax for pagination  function ----------------*/
+function page($page) {
+    $url = location.href.substring(0, location.href.lastIndexOf("/"));
+    $.ajax({
+        type: 'POST',
+        url: $url+'/api/v1/admin/getBookPage.php',
+        dataType: "html",
+        cache: false,
+        data: {
+            'index_page': $page
+        },
+    })
+        .done(function () {
+            location.reload();
+        })
+
+}
+
+
+/*------------------ Sending ajax by clicking on the button ----------------*/
+function mainPageClick($id) {
+    let admin_url = $('#adminUrl').val();
+    $url = location.href.substring(0, location.href.lastIndexOf("/"));
+    $sendurl = $url + admin_url + 'incrementClicks.php';
+    sendAjax($id, $sendurl);
+}
+
+function searchPageClick($id) {
+    let admin_url = $('#adminUrl').val();
+    $url = location.href.substring(0, location.href.lastIndexOf("/"));
+    $sendurl = $url + admin_url + 'incrementClicks.php';
+    sendAjax($id, $sendurl);
+}
+
+function bookPageClick($id) {
+    let admin_url = $('#adminUrl').val();
+    $url = location.href.substring(0, location.href.lastIndexOf("/"));
+    $url = $url.substring(0, $url.lastIndexOf("/"));
+    $sendurl = $url + admin_url + 'incrementClicks.php';
+    sendAjax($id, $sendurl);
+}
+
+function sendAjax($id, $sendurl) {
+    $.ajax({
+        type: 'POST',
+        url: $sendurl,
+        dataType: "html",
+        cache: false,
+        data: {
+            'click_id': $id
+        },
+    })
     {
         alert(
             "Книга свободна и ты можешь прийти за ней." +
             " Наш адрес: г. Кропивницкий, переулок Васильевский 10, 5 этаж." +
             " Лучше предварительно прозвонить и предупредить нас, чтоб " +
-            " не попасть в неловкую ситуацию. Тел. 099 196 24 69"+
-            " \n\n"+
-            "******************\n"+
-            "Кстати, если вы читаете этот текст, то автор сайта еще не отсылает ajax запрос на увеличение количества кликов на кнопку по этой книге"
+            " не попасть в неловкую ситуацию. Тел. 099 196 24 69"
         );
     }
-});
+}

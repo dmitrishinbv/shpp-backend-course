@@ -2,15 +2,13 @@
 // контролер
 Class Controller_Index Extends Controller_Base {
 	
-	// шаблон
-	public $layouts = "first_layouts";
+	public $layouts = 'main_page';
 	
-	// экшен
 	function index() {
-		$model = new Model_Users();
-		$userInfo = $model->getUser();
-		$this->template->vars('userInfo', $userInfo);
-		$this->template->view('index');
+        $model = new Model_Mainpage();
+        $books= $model->getLibraryEntries();
+        $this->template->vars('books', $books);
+	    $this->template->view('index');
 	}
 	
 }

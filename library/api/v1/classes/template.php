@@ -1,14 +1,12 @@
 <?php
 // класс для подключения шаблонов и передачи данных в отображение
 Class Template {
-
-	private $template;
 	private $controller;
 	private $layouts;
-	private $vars = array();
+	private $vars = [];
 	
 	function __construct($layouts, $controllerName) {
-		$this->layouts = $layouts;
+	    $this->layouts = $layouts;
 		$arr = explode('_', $controllerName);
 		$this->controller = strtolower($arr[1]);
 	}
@@ -25,8 +23,9 @@ Class Template {
 	
 	// отображение
 	function view($name) {
-		$pathLayout = SITE_PATH . 'views' . DS . 'layouts' . DS . $this->layouts . '.php';
-		$contentPage = SITE_PATH . 'views' . DS . $this->controller . DS . $name . '.php';
+		$pathLayout = SITE_PATH . 'views/layouts/' .$this->layouts . '.php';
+		$contentPage = SITE_PATH . 'views/' . $this->controller . '/' . $name . '.php';
+
 		if (file_exists($pathLayout) == false) {
 			trigger_error ('Layout `' . $this->layouts . '` does not exist.', E_USER_NOTICE);
 			return false;
@@ -37,10 +36,11 @@ Class Template {
 		}
 		
 		foreach ($this->vars as $key => $value) {
-			$$key = $value;
+            $$key = $value;
 		}
 
-		include ($pathLayout);                
+		include ($pathLayout);
+		return true;
 	}
 	
 }

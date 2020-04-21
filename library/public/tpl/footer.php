@@ -7,7 +7,7 @@
         </div>
     </div>
 </section>
-<div class="sweet-overlay" tabindex="-1" style="opacity: -0.04; display: none;"></div>
+<div class="sweet-overlay" tabindex="-1" style="opacity: 0.04; display: none;"></div>
 <div class="sweet-alert hideSweetAlert" data-custom-class="" data-has-cancel-button="false" data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false" data-animation="pop" data-timer="null" style="display: none; margin-top: -169px; opacity: -0.04;">
     <div class="sa-icon sa-error" style="display: block;">
             <span class="sa-x-mark">
@@ -47,5 +47,4 @@
     </div>
 </div>
 </body>
-
 </html>

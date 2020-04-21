@@ -1,8 +1,3 @@
-/*
-.row>*{
-    background: greenyellow;
-border: 1px solid orange;
-}*/
 
 .row>*{
     border: none;
@@ -10,9 +5,9 @@ border: 1px solid orange;
 
 body {
     font-family: "Book Antiqua", serif;
-    margin-bottom: 60px;// значение высоты #footer
 }
 
+.colDelBook { background: Salmon; color: MidnightBlue; }
 
 .addNewBook {
     border: 1px solid orange;
@@ -20,12 +15,4 @@ body {
 
 .marginRight {
     padding-right: 20px;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #F0F0E9;
 }
