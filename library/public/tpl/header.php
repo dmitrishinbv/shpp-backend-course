@@ -10,8 +10,9 @@
 
     <link rel="stylesheet" href="/public/css/libs.min.css">
     <link rel="stylesheet" href="/public/css/style.css">
-
+    <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/public/js/functions.js"></script>
     <script src="/public/js/book.js" defer=""></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" crossorigin="anonymous"/>
 </head>
@@ -34,18 +35,6 @@
                         <form class="navbar-form" method="post" action="">
                             <div class="form-group">
                                 <input id="search" name = "search" type="text" placeholder="Найти книгу" class="form-control">
-<!--                                <script>-->
-<!--                                    $("#search").bind("keypress", function (e) {-->
-<!--                                        if (e.keyCode === 13) {-->
-<!--                                            e.preventDefault();-->
-<!--                                            var text = htmlspecialchars($('#search').val());-->
-<!--                                            if (text.length > 0) {-->
-<!--                                                text = text.replace(/(^\s+|\s+$)/g, '');-->
-<!--                                                var textEncode = encodeURIComponent(text); //-->
-<!--                                         window.location=`/library/search/`+textEncode;-->
-<!--                                        }-->
-<!--                                    })-->
-<!--                                </script>-->
                                 <input type="submit"  hidden>
                                 <div class="loader"><img src="/public/images/loading.gif"></div>
                                 <div id="list" size="" class="bAutoComplete mSearchAutoComplete"></div>

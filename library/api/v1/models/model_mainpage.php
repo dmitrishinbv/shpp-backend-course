@@ -1,28 +1,49 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
 
 class Model_Mainpage
 {
-    public function getLibraryEntries(){
+
+    private $limit = LIMIT_RES_MAIN_PAGE;
+    private $db;
+    private $booksTable;
+
+    public function __construct()
+    {
         require_once(SITE_PATH . 'models/Database.php');
-        $db = Database::getInstance();
-        $table = $db->getBooksTableName();
-        if (is_null($db) || is_null($table)) { Server::responseCode(500); }
-        $limit = LIMIT_RES_MAIN_PAGE;
-        $page = empty($_SESSION['index_page']) ? 1 : $_SESSION['index_page'];
-        $startingLimit = ($page - 1) * $limit;
-        $query = "SELECT count(*) FROM $table";
-        $res = $db->query($query);
+        $this->db = Database::getInstance();
+        $this->booksTable = $this->db->getBooksTableName();
+    }
+
+    public function getLibraryEntries($page)
+    {
+        $startingLimit = ($page - 1) * $this->limit;
+        return $this->db->select("SELECT * FROM $this->booksTable WHERE `delflag` = 0 
+ORDER BY book_id ASC LIMIT $startingLimit, $this->limit", []);
+    }
+
+
+    public function getPages($page)
+    {
+        $pages['current'] = $page;
+        $prevpage = ($page == 1) ? 1 : $page - 1;
+        $pages += ['prev' => $prevpage];
+        $nextpage = ($page == $this->getTotalPages()) ? $page : $page + 1;
+        $pages += ['next' => $nextpage];
+        unset($_SESSION['index_page']);
+        return $pages;
+    }
+
+
+    function getTotalPages()
+    {
+
+        $query = "SELECT count(*) FROM $this->booksTable";
+        $res = $this->db->query($query);
 
         if ($res) {
-            $totalResults = $res->fetchColumn();
-            $totalPages = ceil($totalResults / $limit);
+            $total_results = $res->fetchColumn();
+            return ceil($total_results / $this->limit);
 
-        } else $totalPages = 0;
-
-        $_SESSION['total_pages'] = $totalPages;
-        return $db->select("SELECT * FROM $table ORDER BY book_id ASC LIMIT $startingLimit, $limit", []);
+        } else return 0;
     }
 }

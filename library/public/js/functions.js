@@ -1,7 +1,7 @@
 function initBackup() {
     jQuery.ajax({
         type: "GET",
-        url: "api/v1/admin/backup.php",
+        url: "/library/api/v1/admin/backup.php",
     })
         .done(function () {
             alert("Вы успешно выполнили полный бэкап сайта");
@@ -14,7 +14,7 @@ function initBackup() {
 function logout() {
     jQuery.ajax({
         type: "GET",
-        url: "api/v1/admin/showUserInfo.php",
+        url: "/library/api/v1/admin/showUserInfo.php",
         async: false,
         username: "logmeout",
         password: "123456",
@@ -46,7 +46,7 @@ function checkFlag() {
 function page($page) {
     $.ajax({
         type: 'POST',
-        url:'api/v1/admin/getBookPage.php',
+        url:'/library/api/v1/admin/getBookPage.php',
         dataType: "html",
         cache: false,
         data: {
@@ -58,11 +58,12 @@ function page($page) {
         })
 }
 
+
 function confirmDelete($id) {
     $url = location.href.substring(0, location.href.lastIndexOf("/"));
     $.ajax({
         type: 'POST',
-        url: 'api/v1/admin/deleteBook.php',
+        url: '/library/api/v1/admin/deleteBook.php',
         dataType: "html",
         cache: false,
         data: {
@@ -70,9 +71,10 @@ function confirmDelete($id) {
         },
     })
         .done(function () {
-            location.reload();
+             location.reload();
         })
 }
+
 
 function addNewBook() {
     $bookName = $('#input').val().trim();
@@ -87,7 +89,7 @@ function addNewBook() {
             formData = new FormData($that.get(0));
         $.ajax({
             type: 'POST',
-            url: 'api/v1/admin/addBook.php',
+            url: '/library/api/v1/admin/addBook.php',
             dataType: 'json',
             cache: false,
             contentType: false,

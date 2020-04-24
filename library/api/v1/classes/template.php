@@ -1,5 +1,5 @@
 <?php
-// класс для подключения шаблонов и передачи данных в отображение
+// this class used for connecting templates and transferring data to views
 Class Template {
 	private $controller;
 	private $layouts;
@@ -11,7 +11,7 @@ Class Template {
 		$this->controller = strtolower($arr[1]);
 	}
 	
-	// установка переменных, для отображения
+	// setting variables to views
 	function vars($varname, $value) {
 		if (isset($this->vars[$varname]) == true) {
 			trigger_error ('Unable to set var `' . $varname . '`. Already set, and overwrite not allowed.', E_USER_NOTICE);
@@ -21,7 +21,7 @@ Class Template {
 		return true;
 	}
 	
-	// отображение
+	// get the file path to view and include it
 	function view($name) {
 		$pathLayout = SITE_PATH . 'views/layouts/' .$this->layouts . '.php';
 		$contentPage = SITE_PATH . 'views/' . $this->controller . '/' . $name . '.php';

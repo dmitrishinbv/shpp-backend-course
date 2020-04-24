@@ -13,6 +13,7 @@ class Model_Books
         require_once(SITE_PATH . 'models/Database.php');
         $this->db = Database::getInstance();
         $this->table = $this->db->getBooksTableName();
+        $this->db->install();
     }
 
 

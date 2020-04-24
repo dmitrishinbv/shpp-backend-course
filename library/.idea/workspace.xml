@@ -45,22 +45,22 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/api/v1/admin" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\public\js" />
-      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\controllers" />
-      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\admin" />
-      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api" />
-      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\public\images" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\public\js" />
+      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\admin" />
+      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\migrations_next_level" />
       <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\controllers\library" />
       <recent name="C:\Users\BD\PhpstormProjects\localhost\library\public" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\admin" />
-      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\views\book" />
+      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\public\images" />
+      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\migrations\upgrade" />
+      <recent name="C:\Users\BD\PhpstormProjects\localhost\library\public\js" />
       <recent name="C:\Users\BD\PhpstormProjects\localhost\library\api\v1\controllers" />
     </key>
   </component>
@@ -141,7 +141,14 @@
       <workItem from="1587117334413" duration="34204000" />
       <workItem from="1587218167015" duration="37752000" />
       <workItem from="1587315844764" duration="14487000" />
-      <workItem from="1587388737223" duration="19032000" />
+      <workItem from="1587388737223" duration="23522000" />
+      <workItem from="1587486021999" duration="4547000" />
+      <workItem from="1587539577424" duration="1167000" />
+      <workItem from="1587550750349" duration="657000" />
+      <workItem from="1587562809992" duration="9306000" />
+      <workItem from="1587587299652" duration="5796000" />
+      <workItem from="1587655393835" duration="17886000" />
+      <workItem from="1587742232453" duration="5167000" />
     </task>
     <servers />
   </component>
@@ -205,10 +212,10 @@
       <screen x="0" y="0" width="1280" height="984" />
     </state>
     <state x="347" y="562" key="NewPhpClassDialog/0.0.1280.984@0.0.1280.984" timestamp="1587193663132" />
-    <state x="475" y="422" key="NewPhpFileDialog" timestamp="1587405013092">
+    <state x="475" y="422" key="NewPhpFileDialog" timestamp="1587665383576">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="475" y="422" key="NewPhpFileDialog/0.0.1280.984@0.0.1280.984" timestamp="1587405013092" />
+    <state x="475" y="422" key="NewPhpFileDialog/0.0.1280.984@0.0.1280.984" timestamp="1587665383576" />
     <state x="143" y="123" key="SettingsEditor" timestamp="1586846642659">
       <screen x="0" y="0" width="1280" height="984" />
     </state>

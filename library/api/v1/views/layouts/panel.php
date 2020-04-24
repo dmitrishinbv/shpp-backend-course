@@ -1,5 +1,6 @@
 <?php
 $totalPages = $panel['totalPages'];
-$entries = $panel['entries'];
-$contentPage = ADMIN_URL . "panel.php";
+$data = $panel ['data'];
+$pages = $panel ['pages'];
+$contentPage = ADMIN_URL . 'panel.php';
 include_once $contentPage;

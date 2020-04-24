@@ -1,0 +1,1 @@
+﻿alter table `authors` drop column book_id;

@@ -1,45 +1,13 @@
 <?php
-
-if (!isset($_SESSION)) {
-    session_start();
-}
-require_once SITE_PATH . "constants.php";
-require_once SITE_PATH . "models/Database.php";
+require_once 'bootstrap.php';
+require_once SITE_PATH . 'views/panel/header.php';
 ?>
 
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>shpp-library - Админка</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-    <script src="/public/js/panelFunctions.js"></script>
-    <script src="/public/js/jquery.js"></script>
-
-    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/css/main.css">
-</head>
-
-<body>
-<header class="header">
-    <div class="container">
-        <div class="row">
-            <div class="col-6"><br>
-                <h2><b><a href="/library">Библиотека++</a></b></h2></div>
-            <div class="col-lg-6"><br>
-                <p align="right"><a href="#" onclick="logout();">Log out</a> | <a href="/library/public/register.html">Register</a>
-            </div>
-        </div>
-
-    </div>
-</header>
 <section>
-
     <form id="bookEntries" action="deleteBook.php" method="post">
         <div class="container-fluid marginRight">
             <div class="row">
                 <div class="col-lg-7">
-
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -51,90 +19,80 @@ require_once SITE_PATH . "models/Database.php";
                         </tr>
                         </thead>
                         <tbody>
+                        <?php foreach ($data as $book) {
+                            $book_img = base64_encode($book['image']);
+                            $id = htmlentities($book['book_id']);
 
-                        <?php
+                            if (htmlentities($book['delflag']) != 1) { ?>
+                                <tr>
+                                <td><img style="margin-right: 5px;"
+                                         src='data:image/jpeg;base64, <?= $book_img; ?>' alt='' width=30px>
+                                    <?= htmlentities($book['name']); ?></td>
+                                <td> <?= htmlentities($book['authors']); ?></td>
+                                <td> <?= htmlentities($book['year']); ?></td>
+                                <td><input class="form-check-input"
+                                           onclick="if (window.confirm('Delete book?')) {confirmDelete(<?= $id; ?>)}"
+                                           type="checkbox" name="checkForDel/<?= $id; ?>" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1"> Удалить </label></td>
+                                <td> <?= htmlentities($book['visits']); ?> / <?= htmlentities($book['clicks']); ?></td>
 
-                        function deleteFlag($id)
-                        {
-                            $label = <<<html
-  <input class="form-check-input" onclick="if (window.confirm('Delete book?')) {confirmDelete($id)}"
-   type="checkbox" name="checkForDel/$id" id="defaultCheck1">
-  <label class="form-check-label" for="defaultCheck1"> Удалить </label>
+                            <?php } else { ?>
+                                <td class='colDelBook'><img style="margin-right: 5px;"
+                                                            src='data:image/jpeg;base64, <?= $book_img; ?>' alt=''
+                                                            width=30px>
+                                    <del><?= htmlentities($book['name']); ?></del>
+                                </td>
+                                <td class='colDelBook'>
+                                    <del> <?= htmlentities($book['authors']); ?></del>
+                                </td>
+                                <td class='colDelBook'>
+                                    <del> <?= htmlentities($book['year']); ?></del>
+                                </td>
+                                <td class='colDelBook'>Будет удалено <br><input class="form-check-input"
+                                                                                onclick="confirmDelete(<?= $id; ?>)"
+                                                                                type="checkbox"
+                                                                                name="checkForDel/<?= $id; ?>"
+                                                                                id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1"><b>Отменить</b></label></td>
+                                <td class='colDelBook'>
+                                    <del> <?= htmlentities($book['visits']); ?> /
+                                        <?= htmlentities($book['clicks']); ?></del>
+                                </td>
+                            <?php } ?>
 
-html;
-                            return $label;
-                        }
-
-                        function undoDeleteFlag($id)
-                        {
-                            $label = <<<html
-  <input class="form-check-input" onclick="confirmDelete($id)"  type="checkbox" name="checkForDel/$id" id="defaultCheck1">
-  <label class="form-check-label" for="defaultCheck1"><b>Отменить</b></label>
-html;
-                            return $label;
-                        }
-
-
-                        foreach ($entries as $row) {
-                            $show_img = base64_encode($row["image"]);
-                            if (htmlentities($row["delflag"]) != 1) {
-                                echo "<tr><td><a href = '#'>
-<img style=\"margin-right: 5px;\" src='data:image/jpeg;base64, $show_img' alt='' width = 30px></a>" . htmlentities($row["name"])
-                                    . "</td><td>" . htmlentities($row["authors"])
-                                    . "</td><td>" . htmlentities($row["year"])
-                                    . "</td><td>" . deleteFlag(htmlentities($row["book_id"]))
-                                    . "</td>
-<td>" . htmlentities($row["visits"]) . ' / ' . htmlentities($row["clicks"]);
-                            } else {
-                                echo "<tr>
-<td class='colDelBook'>
-<a href = '#'>
-<img style=\"margin-right: 5px;\" src='data:image/jpeg;base64, $show_img' alt='' width = 30px></a>
-<del>" . htmlentities($row["name"]) . "</del>
-</td><td class='colDelBook'><del>" . htmlentities($row["authors"]). "</del>
-</td><td class='colDelBook'><del>" . htmlentities($row["year"]). "</td>
-<td class='colDelBook'>Будет удалено </br>" . undoDeleteFlag(htmlentities($row["book_id"])) . "</td>
-<td class='colDelBook'><del>" . htmlentities($row["visits"]) . ' / ' . htmlentities($row["clicks"]);
-                            }
-                        }
-
-                        echo "</div>";
-                        ?>
+                            </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
 
                     <nav>
                         <form name=myform method="post">
                             <ul class="pagination justify-content-center">
-                                <?php
-                                $currentpage = empty($_SESSION['page']) ? 1 : $_SESSION['page'];
-                                $prevpage = ($currentpage == 1) ? 1 : $currentpage - 1;
-                                $nextpage = ($currentpage == $totalPages) ? $currentpage : $currentpage + 1;
-                                if ($totalPages > 1) {
-                                    if ($currentpage != 1) {
-                                        echo "<li class='page-item'><input name=page/$prevpage type=hidden />
-<a class='page-link'  onclick='page($prevpage)' href='#'>Предыдущая</a></li>";
-                                    }
-                                    for ($page = 1; $page <= $totalPages; $page++) {
-                                        if ($page == $currentpage) {
-                                            echo "<li class='page-item'><input name=page/$page type=hidden />
-<a onclick='page($page)' href='#' class='page-link alert-dark'>" . $page .
-                                                "</a></li>";
-                                            continue;
-                                        } else {
-                                            echo "<li class='page-item'><input name=page/$page type=hidden />
-<a onclick='page($page)' href='#' class='page-link'>" . $page .
-                                                "</a></li>";
-                                        }
-                                    }
-                                    if ($totalPages > 1 && $currentpage < $totalPages) {
-                                        echo "<li class='page-item'><input name=page/$nextpage type=hidden />
-<a class='page-link'  onclick='page($nextpage)' href='#'>Следущая</a></li>";
-                                    }
-                                }
+                                <?php if ($totalPages > 1) {
+                                    if ($pages['current'] != 1) { ?>
+                                        <li class="page-item"><input name="page/<?= $pages['prev']; ?>" type="hidden"/>
+                                            <a class="page-link" onclick="page(<?= $pages['prev']; ?>)"
+                                               href="#">Предыдущая</a></li>
+                                    <?php }
 
-                                unset($_SESSION['page']);
-                                ?>
+                                    for ($page = 1; $page <= $totalPages; $page++) {
+                                        if ($page == $pages['current']) { ?>
+                                            <li class="page-item"><input name="page/<?= $page; ?>" type="hidden"/>
+                                                <a onclick="page(<?= $page; ?>)" href="#"
+                                                   class="page-link alert-dark"> <?= $page; ?></a></li>
+                                            <?php continue;
+                                        } else { ?>
+                                            <li class="page-item"><input name="page/<?= $page; ?>" type="hidden"/>
+                                                <a onclick="page(<?= $page; ?>)" href="#"
+                                                   class="page-link"> <?= $page; ?></a></li>
+                                        <?php }
+                                    }
+                                    if ($totalPages > 1 && $pages['current'] < $totalPages) { ?>
+                                        <li class="page-item"><input name="page/<?= $pages['next']; ?>" type="hidden"/>
+                                            <a class="page-link" onclick="page(<?= $pages['next']; ?>)"
+                                               href="#">Следущая</a></li>
+                                    <?php }
+                                } ?>
                             </ul>
                         </form>
                     </nav>
@@ -213,7 +171,7 @@ html;
                     <img style="margin-right: 5px;"
                          src="/public/images/cron.png" width="20%"
                          alt="cron_image">
-                    <a href="/library/public/changeCron.html"><b>Изменить настройки
+                    <a href="/library/public/underConstruction.html"><b>Изменить настройки
                             cron</b></a> <br/>
                     <p></p>
                     <img style="margin-right: 5px;"

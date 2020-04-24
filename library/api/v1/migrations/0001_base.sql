@@ -20,14 +20,15 @@ character set utf8
 collate utf8_general_ci;
 create table if not exists `books` (
     `book_id` int(4) unsigned not null auto_increment,
-    `name` varchar(255) not null,
+    `name` varchar(400) not null,
     `authors` varchar(400),
     `description` text,
     `year` year (4),
     `image` longblob,
+    `delflag` boolean not null default 0,
     primary key (book_id)
 )
 engine = innodb
-auto_increment = 1
+auto_increment = 21
 character set utf8
 collate utf8_general_ci;

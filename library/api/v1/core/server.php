@@ -124,6 +124,7 @@ class Server
 
             $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1');
             header($protocol . ' ' . $code . ' ' . $text);
+
             if ($code !== 200) {
                 $response = json_encode(["error" => "$text"]);
                 exit ($response);

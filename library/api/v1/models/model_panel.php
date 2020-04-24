@@ -15,11 +15,22 @@ class Model_Panel
     }
 
 
-    public  function getEntries($page)
+    public function getEntries($page)
     {
-        $starting_limit = ($page - 1) *  $this->limit;
+        $starting_limit = ($page - 1) * $this->limit;
         return $this->db->select("SELECT * FROM $this->booksTable ORDER BY book_id DESC LIMIT
     $starting_limit, $this->limit", []);
+    }
+
+    public function getPages($page)
+    {
+        $pages['current'] = $page;
+        $prevpage = ($page == 1) ? 1 : $page - 1;
+        $pages += ['prev' => $prevpage];
+        $nextpage = ($page == $this->getTotalPages()) ? $page : $page + 1;
+        $pages += ['next' => $nextpage];
+        unset($_SESSION['page']);
+        return $pages;
     }
 
 

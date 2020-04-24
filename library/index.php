@@ -1,19 +1,17 @@
 <?php
-error_reporting (E_ALL);
+// connect the necessary modules
+require('api/v1/bootstrap.php');
 
-// подключаем константы
-require ('api/v1/bootstrap.php');
-
-// Загружаем router
+// connect router
 $router = new Router();
 
-// задаем путь до папки контроллеров.
-$router->setPath (SITE_PATH . 'controllers');
+// set the path to the controller folder
+$router->setPath(SITE_PATH . 'controllers');
 
-// запускаем маршрутизатор
+// start the router
 $router->start();
 
-// запускаем (если установленно USE_MIGRATION) миграции
+// run (if needed) migrations
 if (USE_MIGRATION) {
     $migrations = new Migrations();
     $migrations->start();

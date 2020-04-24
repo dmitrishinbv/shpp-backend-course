@@ -1,13 +1,11 @@
 <?php
-// абстрактый класс контроллера
+
 Abstract Class Controller_Base {
 
 	protected $template;
-	protected $layouts; // шаблон
-	
-	public $vars = array();
+	protected $layouts;
 
-	// в конструкторе подключаем шаблоны
+	// connect templates
 	function __construct() {
 		$this->template = new Template($this->layouts, get_class($this));
 	}

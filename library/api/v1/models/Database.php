@@ -78,17 +78,23 @@ class Database
     public function install()
     {
         $tableName = $this->booksTableName;
-        if ($this->connect()->query("SHOW TABLES LIKE '$tableName'") == false) {
-            $booksListColumns = "book_id INT(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            name VARCHAR(255) NOT NULL, authors VARCHAR(400), description TEXT, year YEAR(4), image LONGBLOB,
-            visits INT(3) NOT NULL DEFAULT 0, clicks INT(3) NOT NULL DEFAULT 0, inuse BOOLEAN NOT NULL DEFAULT 0,
-            delflag BOOLEAN NOT NULL DEFAULT 0";
-            $query = $this->connect()->exec("CREATE TABLE $tableName ($booksListColumns)
-ENGINE=MyISAM DEFAULT CHARSET=utf8");
-            if (!$query) {
-                Server::responseCode(500);
-            }
-        }
+        $this->connect()->exec("CREATE TABLE IF NOT EXISTS $tableName (
+    `book_id` int(4) unsigned not null auto_increment,
+    `name` varchar(400) not null,
+    `authors` varchar(400),
+    `description` text,
+    `year` year (4),
+    `image` longblob,
+    `visits` INT(4) NOT NULL DEFAULT 0,
+    `clicks` INT(4) NOT NULL DEFAULT 0,
+    `delflag` BOOLEAN NOT NULL DEFAULT 0,
+    primary key (book_id)
+    )
+    engine = innodb
+    auto_increment = 21
+    character set utf8
+    collate utf8_general_ci;");
+
         return true;
     }
 
